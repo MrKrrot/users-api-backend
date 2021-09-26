@@ -15,25 +15,25 @@ let data = [
         "id": 1,
         "username": "MrKrrot",
         "pass": "fd4f8sdg6GSSAFDA68SF&SAD25",
-        "name": "Rafael Olguin"
+        "name": "Rafael"
     },
     {
         "id": 2,
         "username": "TheWither855",
         "pass": "f63FA697sV_$5as61&$#",
-        "name": "Rafael Sanchez"
+        "name": "Juancho"
     },
     {
         "id": 3,
         "username": "Oddy",
         "pass": "&DA61$dff_asa/6ajpPs_",
-        "name": "Karen Pineda"
+        "name": "Karen"
     },
     {
         "id": 4,
         "username": "pou",
         "pass": "fd4_frtvTY_#aFH/v",
-        "name": "Isaac Efrain"
+        "name": "Isaac"
     }
 ]
 
