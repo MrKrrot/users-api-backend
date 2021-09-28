@@ -4,20 +4,28 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js",
-        "dev": "nodemon index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "cross-env NODE_ENV=production node index.js",
+        "dev": "cross-env NODE_ENV=development nodemon index.js",
+        "test": "cross-env NODE_ENV=test jest --verbose --silent tests/teams.test.js",
+        "test:watch": "npm run test -- --watch"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "bcrypt": "^5.0.1",
         "cors": "^2.8.5",
+        "cross-env": "^7.0.3",
         "dotenv": "^10.0.0",
         "express": "^4.17.1",
-        "mongoose": "^6.0.7"
+        "mongoose": "^6.0.8"
     },
     "devDependencies": {
-        "eslint": "^7.32.0"
+        "eslint": "^7.32.0",
+        "jest": "^27.2.3",
+        "supertest": "^6.1.6"
+    },
+    "jest": {
+        "testEnvironment": "node"
     }
 }

@@ -3,6 +3,7 @@ module.exports = {
         node: true,
         commonjs: true,
         es2021: true,
+        jest: true,
     },
     extends: 'eslint:recommended',
     parserOptions: {
@@ -13,5 +14,6 @@ module.exports = {
         'linebreak-style': ['error', 'windows'],
         quotes: ['error', 'single'],
         semi: ['error', 'never'],
+        'no-unused-vars': ['warn', { vars: 'all' }],
     },
 }

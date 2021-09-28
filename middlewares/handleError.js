@@ -1,4 +1,3 @@
-/*eslint no-unused-vars: ["error", { "args": "none" }]*/
 module.exports = (err, req, res, next) => {
     console.error(err)
 

@@ -7,6 +7,10 @@ const userSchema = new Schema({
     },
     pass: String,
     name: String,
+    team: {
+        type: Schema.Types.ObjectId,
+        ref: 'Team',
+    },
 })
 
 userSchema.set('toJSON', {
@@ -14,6 +18,8 @@ userSchema.set('toJSON', {
         returnedObject.id = returnedObject._id
         delete returnedObject._id
         delete returnedObject.__v
+
+        delete returnedObject.pass
     },
 })
 

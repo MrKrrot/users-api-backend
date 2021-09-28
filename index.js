@@ -3,8 +3,10 @@ require('./mongo')
 
 const express = require('express')
 const cors = require('cors')
+const bcrypt = require('bcrypt')
 const User = require('./models/User')
 
+const teamsRouter = require('./controllers/teams')
 const notFound = require('./middlewares/notFound')
 const handleError = require('./middlewares/handleError')
 
@@ -18,10 +20,9 @@ app.get('/', (req, res) => {
     res.send('<h1>Hola Mundo</h1>')
 })
 
-app.get('/api/users', (req, res) => {
-    User.find({}).then(users => {
-        res.json(users)
-    })
+app.get('/api/users', async (req, res) => {
+    const users = await User.find({})
+    res.json(users)
 })
 
 app.get('/api/users/:id', (req, res, next) => {
@@ -48,17 +49,17 @@ app.put('/api/users/:id', (req, res) => {
     })
 })
 
-app.delete('/api/users/:id', (req, res, next) => {
+app.delete('/api/users/:id', async (req, res, next) => {
     const { id } = req.params
-
-    User.findByIdAndDelete(id)
-        .then(() => {
-            res.status(204).end()
-        })
-        .catch(err => next(err))
+    try {
+        await User.findByIdAndDelete(id)
+        res.status(204).end()
+    } catch (err) {
+        next(err)
+    }
 })
 
-app.post('/api/users', (req, res) => {
+app.post('/api/users', async (req, res, next) => {
     const user = req.body
 
     if (!user || !user.username || !user.pass || !user.name) {
@@ -66,16 +67,28 @@ app.post('/api/users', (req, res) => {
             error: 'user info is missing',
         })
     }
+
+    const passHash = await bcrypt.hash(user.pass, 10)
+
     const newUser = new User({
         username: user.username,
-        pass: user.pass,
+        pass: passHash,
         name: user.name,
     })
 
-    newUser.save().then(savedUser => {
+    /*newUser.save().then(savedUser => {
         res.status(201).json(savedUser)
-    })
+    }) */
+
+    try {
+        const savedUser = await newUser.save()
+        res.status(201).json(savedUser)
+    } catch (err) {
+        next(err)
+    }
 })
+
+app.use('/api/teams', teamsRouter)
 
 app.use(notFound)
 
@@ -83,6 +96,8 @@ app.use(handleError)
 
 const PORT = process.env.PORT
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`)
 })
+
+module.exports = { app, server }
