@@ -11,10 +11,13 @@ mongoose
         console.log('Database connected')
     })
     .catch(err => {
-        console.error('Ocurrió un error al conectarse a la base de datos: ' + err)
+        console.error(
+            'Ocurrió un error al conectarse a la base de datos: ' + err
+        )
     })
 
-process.on('uncaughtException', () => {
-    mongoose.connection.close()
+process.on('uncaughtException', error => {
+    console.error(error)
+    mongoose.disconnect()
     console.log('Database disconnected')
 })

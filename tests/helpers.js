@@ -9,11 +9,13 @@ const initialUsers = [
         username: 'MrKrrot',
         pass: 'MiPass48',
         name: 'Rafael Olguin',
+        team: 'Zanahorias Estelares',
     },
     {
         username: 'TheWither855',
         pass: 'OtraPass4861',
         name: 'Juancho Banderas',
+        team: 'Zanahorias Estelares',
     },
 ]
 

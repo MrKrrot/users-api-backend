@@ -8,8 +8,8 @@ describe.only('creating a new team', () => {
         await Team.deleteMany({})
         const team = new Team({
             logo: '/images/ZHE.png',
-            players: [{ id: '61537b7beb830628d004b636' }],
-            captain: '61537b7beb830628d004b636',
+            players: [{ id: '6153deaeea961a9a1d381af2' }],
+            captain: '6153deaeea961a9a1d381af2',
             teamName: 'Zanahorias Estelares',
         })
 
@@ -24,10 +24,10 @@ describe.only('creating a new team', () => {
             logo: '/images/UTM.png',
             players: [
                 {
-                    id: '61537b7beb830628d004b636',
+                    id: '6153deaeea961a9a1d381af2',
                 },
             ],
-            captain: '61537b7beb830628d004b636',
+            captain: '6153deaeea961a9a1d381af2',
             teamName: 'Universidad Tecnológica de Matamoros',
         }
 
@@ -45,6 +45,9 @@ describe.only('creating a new team', () => {
         const captains = teamsAtEnd.map(t => t.captain)
         expect(captains).toContain(newTeam.captain)
     })
+
+    test('creation fails with proper statuscode and message if name team is already taken', async () => {})
+
     afterAll(() => {
         mongoose.connection.close()
         server.close()

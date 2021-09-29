@@ -14,7 +14,6 @@ const teamSchema = new Schema({
     },
     teamName: {
         type: String,
-        unique: true,
     },
 })
 

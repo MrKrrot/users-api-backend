@@ -38,6 +38,7 @@ describe('create a user', () => {
             username: 'Oddy',
             pass: 'MiPass',
             name: 'Karen',
+            team: 'Zanahorias Estelares',
         }
 
         await api
@@ -56,6 +57,7 @@ describe('create a user', () => {
         const newUser = {
             username: 'Oddy',
             name: 'Karen',
+            team: 'Zanahorias Estelares',
         }
 
         await api.post('/api/users').send(newUser).expect(400)

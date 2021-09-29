@@ -8,7 +8,7 @@ const userSchema = new Schema({
     pass: String,
     name: String,
     team: {
-        type: Schema.Types.ObjectId,
+        type: String,
         ref: 'Team',
     },
 })
