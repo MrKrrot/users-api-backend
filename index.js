@@ -9,6 +9,7 @@ const deleteUserRouter = require('./controllers/deleteUser.controller')
 const editUserRouter = require('./controllers/editUser.controller')
 const getUserRouter = require('./controllers/getUser.controller')
 const getAllUsersRouter = require('./controllers/getAllUsers.controller')
+const userExtractor = require('./middlewares/userExtractor')
 const notFound = require('./middlewares/notFound')
 const handleError = require('./middlewares/handleError')
 
@@ -29,11 +30,11 @@ app.use('/api/users/', getUserRouter)
 // Route to create a user
 app.use('/api/users', createUserRouter)
 // Route to edit a user by ID
-app.use('/api/users/', editUserRouter)
+app.use('/api/users/', userExtractor, editUserRouter)
 // Route to delete a user by ID
-app.use('/api/users/', deleteUserRouter)
+app.use('/api/users/', userExtractor, deleteUserRouter)
 // Route to create teams
-app.use('/api/teams', teamsRouter)
+app.use('/api/teams', userExtractor, teamsRouter)
 // Route to login in
 app.use('/api/login', loginRouter)
 // If the route does not exists. This route send an error 404

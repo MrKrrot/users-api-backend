@@ -10,8 +10,8 @@ teamsRouter.get('/', async (req, res) => {
 teamsRouter.post('/', async (req, res, next) => {
     const { players, logo, teamName, captain } = req.body
 
-    const user = await User.findById(captain)
-    //console.log(user)
+    const { userId } = req
+    const user = await User.findById(userId)
 
     if (!logo || !teamName || !captain) {
         return res.status(400).json({
