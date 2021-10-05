@@ -13,6 +13,7 @@ const userExtractor = require('./middlewares/userExtractor')
 const notFound = require('./middlewares/notFound')
 const handleError = require('./middlewares/handleError')
 const fileRouter = require('./controllers/fileRouter.controller')
+const folderRouter = require('./controllers/createFolder.controller')
 
 const app = express()
 
@@ -38,6 +39,8 @@ app.use('/api/users/', userExtractor, deleteUserRouter)
 app.use('/api/teams', userExtractor, teamsRouter)
 // Route to login in
 app.use('/api/login', loginRouter)
+// Route to create a folder
+app.use('/fm/create', userExtractor, folderRouter)
 // Route to get all user's files
 app.use('/fm/', userExtractor, fileRouter)
 // If the route does not exists. This route send an error 404
