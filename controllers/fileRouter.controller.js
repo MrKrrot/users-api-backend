@@ -100,4 +100,36 @@ fileRouter.post('/', async (req, res, next) => {
     }
 })
 
+fileRouter.post('/:path', async (req, res, next) => {
+    if (!req.files) {
+        return res.status(400).json({ error: 'No files were uploaded' })
+    }
+    const path = req.params.path
+    const { userId } = req
+
+    let userFiles = req.files.files
+    if (!Array.isArray(userFiles)) {
+        userFiles = [userFiles]
+    }
+    try {
+        const parentFolder = await Folder.findById(path)
+        if (!parentFolder) {
+            return res
+                .status(400)
+                .json({ message: 'This folder does not exists' })
+        }
+        const user = await User.findById(userId)
+        const userPath = await getPath(`${user.username}/${parentFolder.path}`)
+        for (const file of userFiles) {
+            file.mv(`${userPath.path}/${file.name}`, err => {
+                if (err) return res.status(500).json({ err })
+            })
+        }
+        userPath.closeSync()
+        res.status(201).json({ message: 'Files uploaded succesfully!' })
+    } catch (err) {
+        next(err)
+    }
+})
+
 module.exports = fileRouter
