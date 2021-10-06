@@ -40,7 +40,7 @@ app.use('/api/teams', userExtractor, teamsRouter)
 // Route to login in
 app.use('/api/login', loginRouter)
 // Route to create a folder
-app.use('/fm/create', userExtractor, folderRouter)
+app.use('/fm/create/', userExtractor, folderRouter)
 // Route to get all user's files
 app.use('/fm/', userExtractor, fileRouter)
 // If the route does not exists. This route send an error 404

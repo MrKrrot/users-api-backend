@@ -6,16 +6,17 @@ const Folder = require('../models/Folder')
 folderRouter.post('/', async (req, res, next) => {
     const folderName = req.body.name
     const { userId } = req
+    //console.log(folderName)
+    //console.log(req.body)
     if (!folderName) {
-        return res.send(400).json({ message: 'No name was specified' })
+        return res.status(400).json({ message: 'No name was specified' })
     }
 
-    const user = await User.findById(userId)
     try {
+        const user = await User.findById(userId)
         await fs.promises.mkdir(
             `${process.env.HOME_CLOUD_STORAGE}\\${user.username}\\${folderName}`
         )
-
         const newFolder = new Folder({
             folderName,
             user: userId,
@@ -38,6 +39,7 @@ folderRouter.post('/', async (req, res, next) => {
 folderRouter.post('/:path', async (req, res, next) => {
     const path = req.params.path
     const folderName = req.body.name
+    //console.log(folderName)
     const { userId } = req
     try {
         const parentFolder = await Folder.findById(path)
