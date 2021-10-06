@@ -3,6 +3,7 @@ const fileUpload = require('express-fileupload')
 const User = require('../models/User')
 const Folder = require('../models/Folder')
 const getPath = require('../getPath')
+const fs = require('fs')
 
 fileRouter.use(fileUpload())
 
@@ -15,6 +16,7 @@ fileRouter.get('/', async (req, res, next) => {
         const content = {
             files: [],
             directories: [],
+            path: '/',
         }
         // Selecciona todos los directorios de la raíz
         const userFolders = await Folder.find({ user: userId, parentPath: '/' })
@@ -44,14 +46,13 @@ fileRouter.get('/:path', async (req, res, next) => {
         const parentFolder = await Folder.findById(path)
         const user = await User.findById(userId)
         if (!parentFolder) {
-            return res
-                .status(400)
-                .json({ message: 'This folder does not exists' })
+            return res.status(400).json({ message: 'This folder does not exists' })
         }
         const userPath = await getPath(`${user.username}/${parentFolder.path}`)
         const content = {
             files: [],
             directories: [],
+            path: parentFolder.path,
         }
         const userFolders = await Folder.find({
             user: userId,
@@ -89,9 +90,25 @@ fileRouter.post('/', async (req, res, next) => {
         }
         const userPath = await getPath(user.username)
         for (const file of userFiles) {
-            file.mv(`${userPath.path}/${file.name}`, err => {
-                if (err) return res.status(500).json({ error: err })
-            })
+            const existFile = fs.existsSync(`${userPath.path}/${file.name}`)
+            if (!existFile) {
+                file.mv(`${userPath.path}/${file.name}`, err => {
+                    if (err) return res.status(500).json({ error: err })
+                })
+            } else {
+                let counter = 1
+                let existNumberOfFile = false
+                do {
+                    if (!fs.existsSync(`${userPath.path}/(${counter}) ${file.name}`)) {
+                        file.name = `(${counter}) ${file.name}`
+                        file.mv(`${userPath.path}/${file.name}`)
+                        existNumberOfFile = false
+                    } else {
+                        existNumberOfFile = true
+                        counter++
+                    }
+                } while (existNumberOfFile)
+            }
         }
         userPath.closeSync()
         res.status(201).json({ message: 'Files uploaded succesfully!' })
@@ -114,9 +131,7 @@ fileRouter.post('/:path', async (req, res, next) => {
     try {
         const parentFolder = await Folder.findById(path)
         if (!parentFolder) {
-            return res
-                .status(400)
-                .json({ message: 'This folder does not exists' })
+            return res.status(400).json({ message: 'This folder does not exists' })
         }
         const user = await User.findById(userId)
         const userPath = await getPath(`${user.username}/${parentFolder.path}`)

@@ -8,7 +8,7 @@ const ERROR_HANDLERS = {
     },
     TokenExpirerError: res => res.status(401).json({ error: 'token expired' }),
     EEXIST: res => res.status(400).json({ error: 'Folder already exists' }),
-    defaultError: res => res.status(500).end(),
+    defaultError: (res, error) => res.status(500).json({ error: error }),
 }
 
 module.exports = (err, req, res, next) => {
