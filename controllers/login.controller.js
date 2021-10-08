@@ -9,11 +9,10 @@ loginRouter.post('/', async (req, res, next) => {
         const { username } = body
 
         const user = await User.findOne({ username })
-        const passCorrect =
-            user === null ? false : await bcrypt.compare(body.pass, user.pass)
+        const passCorrect = user === null ? false : await bcrypt.compare(body.pass, user.pass)
 
         if (!(user && passCorrect)) {
-            res.status(401).json({
+            return res.status(401).json({
                 error: 'invalid user or password',
             })
         }
@@ -27,12 +26,13 @@ loginRouter.post('/', async (req, res, next) => {
             expiresIn: 60 * 60 * 24 * 7,
         })
 
-        res.send({
+        res.json({
             name: user.name,
             username: user.username,
             token,
         })
     } catch (err) {
+        console.log(err)
         next(err)
     }
 })
