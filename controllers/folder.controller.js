@@ -3,6 +3,7 @@ const fs = require('fs')
 const User = require('../models/User')
 const Folder = require('../models/Folder')
 
+// Create new directory in the index
 folderRouter.post('/', async (req, res, next) => {
     const folderName = req.body.name
     const { userId } = req
@@ -36,6 +37,7 @@ folderRouter.post('/', async (req, res, next) => {
     }
 })
 
+// Create new directory in specific directory
 folderRouter.post('/:path', async (req, res, next) => {
     const path = req.params.path
     const folderName = req.body.name
@@ -45,9 +47,7 @@ folderRouter.post('/:path', async (req, res, next) => {
         const parentFolder = await Folder.findById(path)
         const user = await User.findById(userId)
         if (!parentFolder) {
-            return res
-                .status(400)
-                .json({ message: 'This folder does not exists' })
+            return res.status(400).json({ message: 'This folder does not exists' })
         }
 
         await fs.promises.mkdir(

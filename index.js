@@ -4,16 +4,12 @@ const express = require('express')
 const cors = require('cors')
 const teamsRouter = require('./controllers/createTeams.controller')
 const loginRouter = require('./controllers/login.controller')
-const createUserRouter = require('./controllers/createUser.controller')
-const deleteUserRouter = require('./controllers/deleteUser.controller')
-const editUserRouter = require('./controllers/editUser.controller')
-const getUserRouter = require('./controllers/getUser.controller')
-const getAllUsersRouter = require('./controllers/getAllUsers.controller')
+const userRouter = require('./controllers/user.controller')
 const userExtractor = require('./middlewares/userExtractor')
 const notFound = require('./middlewares/notFound')
 const handleError = require('./middlewares/handleError')
-const fileRouter = require('./controllers/fileRouter.controller')
-const folderRouter = require('./controllers/createFolder.controller')
+const fileRouter = require('./controllers/files.controller')
+const folderRouter = require('./controllers/folder.controller')
 
 const app = express()
 
@@ -26,15 +22,15 @@ app.get('/', (req, res) => {
 })
 
 // Route to get all the users from the DB
-app.use('/api/users', getAllUsersRouter)
+app.use('/api/users', userRouter)
 // Route to get a user by ID
-app.use('/api/users/', getUserRouter)
+app.use('/api/users/', userRouter)
 // Route to create a user
-app.use('/api/users', createUserRouter)
+app.use('/api/users', userRouter)
 // Route to edit a user by ID
-app.use('/api/users/', userExtractor, editUserRouter)
+app.use('/api/users/', userExtractor, userRouter)
 // Route to delete a user by ID
-app.use('/api/users/', userExtractor, deleteUserRouter)
+app.use('/api/users/', userExtractor, userRouter)
 // Route to create teams
 app.use('/api/teams', userExtractor, teamsRouter)
 // Route to login in

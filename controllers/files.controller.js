@@ -7,6 +7,7 @@ const fs = require('fs')
 
 fileRouter.use(fileUpload())
 
+// Get the index directory of user
 fileRouter.get('/', async (req, res, next) => {
     try {
         const { userId } = req
@@ -38,6 +39,7 @@ fileRouter.get('/', async (req, res, next) => {
     }
 })
 
+// Get specific directory of user
 fileRouter.get('/:path', async (req, res, next) => {
     const path = req.params.path
     const { userId } = req
@@ -77,6 +79,7 @@ fileRouter.get('/:path', async (req, res, next) => {
     }
 })
 
+// Upload files on index route
 fileRouter.post('/', async (req, res, next) => {
     try {
         if (!req.files) {
@@ -117,6 +120,7 @@ fileRouter.post('/', async (req, res, next) => {
     }
 })
 
+// Upload files on specific directory of user
 fileRouter.post('/:path', async (req, res, next) => {
     if (!req.files) {
         return res.status(400).json({ error: 'No files were uploaded' })
