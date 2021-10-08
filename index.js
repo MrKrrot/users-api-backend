@@ -13,32 +13,28 @@ const folderRouter = require('./controllers/folder.controller')
 
 const app = express()
 
+// Middlewares
 app.use(cors())
 app.use('/images', express.static('images'))
 app.use(express.json())
 
+// Index Route
 app.get('/', (req, res) => {
     res.send('<h1>Hola Mundo</h1>')
 })
 
-// Route to get all the users from the DB
+// Route to get users or create a user
 app.use('/api/users', userRouter)
-// Route to get a user by ID
-app.use('/api/users/', userRouter)
-// Route to create a user
-app.use('/api/users', userRouter)
-// Route to edit a user by ID
-app.use('/api/users/', userExtractor, userRouter)
-// Route to delete a user by ID
-app.use('/api/users/', userExtractor, userRouter)
+// Route to edit or delete a user
+app.use('/api/users', userExtractor, userRouter)
 // Route to create teams
 app.use('/api/teams', userExtractor, teamsRouter)
 // Route to login in
 app.use('/api/login', loginRouter)
 // Route to create a folder
-app.use('/fm/create/', userExtractor, folderRouter)
+app.use('/fm/create', userExtractor, folderRouter)
 // Route to get all user's files
-app.use('/fm/', userExtractor, fileRouter)
+app.use('/fm', userExtractor, fileRouter)
 // If the route does not exists. This route send an error 404
 app.use(notFound)
 
