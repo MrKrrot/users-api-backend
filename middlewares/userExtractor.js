@@ -10,17 +10,17 @@ module.exports = (req, res, next) => {
     let decodedToken = {}
     try {
         decodedToken = jwt.verify(token, process.env.SECRET_TOKEN)
+
+        if (!token || !decodedToken.id) {
+            return res.status(401).json({ error: 'token missing or invalid' })
+        }
+
+        const { id: userId } = decodedToken
+
+        req.userId = userId
     } catch (err) {
         next(err)
     }
-
-    if (!token || !decodedToken.id) {
-        return res.status(401).json({ error: 'token missing or invalid' })
-    }
-
-    const { id: userId } = decodedToken
-
-    req.userId = userId
 
     next()
 }
