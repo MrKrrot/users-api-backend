@@ -151,4 +151,29 @@ fileRouter.post('/:path', async (req, res, next) => {
     }
 })
 
+fileRouter.delete('/:path', async (req, res, next) => {
+    const path = req.params.path
+    const { userId } = req
+
+    try {
+        const deletedFolder = await Folder.findByIdAndDelete(path)
+        if (!deletedFolder) {
+            return res.json({ message: 'This folder does not exists' })
+        }
+        const user = await User.findById(userId)
+        const pathToDelete = await getPath(`${user.username}${deletedFolder.path}`)
+
+        await Folder.deleteMany({
+            user: userId,
+            path: { $regex: `${deletedFolder.path}/` },
+        })
+        fs.rmdirSync(pathToDelete.path, { recursive: true })
+
+        pathToDelete.close()
+        return res.json({ message: 'Folder removed succesfully' })
+    } catch (err) {
+        next(err)
+    }
+})
+
 module.exports = fileRouter

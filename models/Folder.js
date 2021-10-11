@@ -8,4 +8,12 @@ const folderSchema = new Schema({
     children: Array,
 })
 
+folderSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id
+        delete returnedObject._id
+        delete returnedObject.__v
+    },
+})
+
 module.exports = model('Folder', folderSchema)
