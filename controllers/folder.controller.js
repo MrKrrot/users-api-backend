@@ -28,7 +28,7 @@ folderRouter.post('/', async (req, res, next) => {
 
         const savedFolder = await newFolder.save()
 
-        res.json({
+        res.status(201).json({
             message: 'Directory created',
             folder: savedFolder.folderName,
         })
@@ -74,7 +74,7 @@ folderRouter.post('/:path', async (req, res, next) => {
             { $push: { children: updateParentFolder } },
             { new: true }
         )
-        res.json({
+        res.status(201).json({
             message: 'Directory created',
             folder: savedFolder.folderName,
         })

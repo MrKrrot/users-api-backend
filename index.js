@@ -5,6 +5,7 @@ const cors = require('cors')
 const teamsRouter = require('./controllers/createTeams.controller')
 const loginRouter = require('./controllers/login.controller')
 const userRouter = require('./controllers/user.controller')
+const editUserRouter = require('./controllers/editUser.controller')
 const userExtractor = require('./middlewares/userExtractor')
 const notFound = require('./middlewares/notFound')
 const handleError = require('./middlewares/handleError')
@@ -26,7 +27,7 @@ app.get('/', (req, res) => {
 // Route to get users or create a user
 app.use('/api/users', userRouter)
 // Route to edit or delete a user
-app.use('/api/users', userExtractor, userRouter)
+app.use('/api/user', userExtractor, editUserRouter)
 // Route to create teams
 app.use('/api/teams', userExtractor, teamsRouter)
 // Route to login in

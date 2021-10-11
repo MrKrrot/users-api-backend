@@ -49,29 +49,4 @@ userRouter.post('/', async (req, res, next) => {
     }
 })
 
-// Edit user password
-userRouter.put('/:id', (req, res) => {
-    const { id } = req.params
-    const user = req.body
-
-    const newUserInfo = {
-        pass: user.pass,
-    }
-
-    User.findByIdAndUpdate(id, newUserInfo, { new: true }).then(result => {
-        res.json(result)
-    })
-})
-
-// Delete User Route
-userRouter.delete('/:id', async (req, res, next) => {
-    const { id } = req.params
-    try {
-        await User.findByIdAndDelete(id)
-        res.status(204).end()
-    } catch (err) {
-        next(err)
-    }
-})
-
 module.exports = userRouter

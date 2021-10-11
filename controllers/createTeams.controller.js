@@ -3,7 +3,8 @@ const Team = require('../models/Team')
 const User = require('../models/User')
 
 teamsRouter.get('/', async (req, res) => {
-    const teams = await Team.find({})
+    const { userId } = req
+    const teams = await Team.find({ captain: userId })
     res.json(teams)
 })
 
