@@ -28,8 +28,6 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRouter)
 // Route to edit or delete a user
 app.use('/api/user', userExtractor, editUserRouter)
-// Route to create teams
-app.use('/api/teams', userExtractor, teamsRouter)
 // Route to login in
 app.use('/api/login', loginRouter)
 // Route to create a folder
