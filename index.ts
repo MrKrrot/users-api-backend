@@ -18,11 +18,6 @@ app.use(cors())
 app.use('/images', express.static('images'))
 app.use(express.json())
 
-// Index Route
-app.get('/', (req, res) => {
-    res.send('<h1>Hola Mundo</h1>')
-})
-
 // Route to get users or create a user
 app.use('/api/users', userRouter)
 // Route to edit or delete a user

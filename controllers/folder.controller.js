@@ -83,4 +83,21 @@ folderRouter.post('/:path', async (req, res, next) => {
     }
 })
 
+folderRouter.put('/:path', async (req, res, next) => {
+    //const { userId } = req
+    const path = req.params.path
+    const newFolderName = req.body.name
+
+    if (!newFolderName) return res.status(400).json({ message: 'No name was specified' })
+
+    try {
+        const folderToRename = await Folder.findById(path)
+        if (!folderToRename) return res.status(400).json({ message: 'This folder does not exists' })
+        console.log(newFolderName)
+        return res.json(folderToRename)
+    } catch (err) {
+        next(err)
+    }
+})
+
 module.exports = folderRouter

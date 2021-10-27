@@ -10,10 +10,8 @@ mongoose
     .then(() => {
         console.log('Database connected')
     })
-    .catch(err => {
-        console.error(
-            'Ocurrió un error al conectarse a la base de datos: ' + err
-        )
+    .catch((err: Error) => {
+        console.error('Ocurrió un error al conectarse a la base de datos: ' + err)
     })
 
 process.on('uncaughtException', error => {
